@@ -1,0 +1,70 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Andrew Mahoney-Fernandes">
+
+    <title>Altalova Calculator</title>
+ 
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <div class="comparison-widget">
+
+    <div class="header-part">
+        <h2>Money Transfer Comparison</h2>
+    </div>
+    <div class="form-part">
+        <div class="sending-as">
+            <div class="row">
+                <div class="col-xs-6 sending-as-individual">
+                    <a class="btn-rnd btn-rnd-primary btn-rnd-primary-plain active" value="anIndividual">Individual</a>
+                </div>
+                <div class="col-xs-6 sending-as-business">
+                    <a class="btn-rnd btn-rnd-primary" value="aBusiness">Business</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="sending-from">
+            <label class="top-label">Sending from</label>
+            <select id="comparison-from" class="form-control js-selectize selectized" placeholder="Enter currency or country" tabindex="-1" style="display: none;"><option value="UK" selected="selected" data-currency="GBP">UK (GBP)</option></select><div class="selectize-control form-control js-selectize single"><div class="selectize-input items full has-options has-items"><div data-currency="GBP" data-value="UK"><span class="name">UK (GBP)</span></div><input type="text" autocomplete="off" tabindex="" id="comparison-from-selectized" style="width: 4px;"></div><div class="selectize-dropdown single form-control js-selectize" style="display: none; width: 310px; top: 42px; left: 0px;"><div class="selectize-dropdown-content"></div></div></div>
+        </div>
+        <div class="sending-to">
+            <label class="top-label">Sending to</label>
+            <select id="comparison-to" class="form-control js-selectize selectized" placeholder="Enter currency or country" tabindex="-1" style="display: none;"><option value="USA" selected="selected" data-currency="USD">USA (USD)</option></select><div class="selectize-control form-control js-selectize single"><div class="selectize-input items full has-options has-items"><div data-currency="USD" data-value="USA"><span class="name">USA (USD)</span></div><input type="text" autocomplete="off" tabindex="" id="comparison-to-selectized" style="width: 4px;"></div><div class="selectize-dropdown single form-control js-selectize" style="display: none; width: 310px; top: 42px; left: 0px;"><div class="selectize-dropdown-content"></div></div></div>
+        </div>
+        <div class="amount amountForm">
+            <label class="top-label">Amount (<span class="selectedCurrency">GBP</span>)</label>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="dropdown-toggle amount-direction form-control" data-toggle="dropdown" aria-expanded="false" id="dropdownSendReceive">
+                        <label class="dropdown-toggle" data-toggle="tooltip" title="" data-original-title="Choose to send or receive the amount">
+                            <span class="currentOperationLabel">Send</span>
+                            <span class="caret"></span>
+                        </label>
+                    </div>
+                    <ul id="comparison-amount-send-receive" class="dropdown-menu" role="menu">
+                        <span class="topIndicator"></span>
+                        <li role="presentation" class="active" value="0"><a role="menuitem" tabindex="-1">Send
+                        </a></li><li role="presentation" class="" value="1"><a role="menuitem" tabindex="-1">Receive</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 no-padding-l">
+                    <input id="comparison-amount" type="text" class="form-control onlyNumbers transferAmount numToLocaleString" value="" placeholder="10,000">
+                </div>
+            </div>
+        </div>
+        <div class="compare-button">
+            <a data-link="https://www.fxcompared.com/money-transfer/" class="btn-rnd btn-rnd-secondary-plain btn-rnd-large comparison-main-btn">Compare now</a>
+        </div>
+    </div>
+</div>
+    
+    
+
+  </body>
+</html>
