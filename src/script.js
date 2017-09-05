@@ -8,10 +8,10 @@ document.getElementById("recipient").addEventListener("change", updateCurrency);
 
 var output = document.getElementById("root");
 
-var rate = ".5%";
-var bank = "$20";
-var online = "$10";
-var altalova = "$5";
+var rate = "3.1253";
+var bank = "$____";
+var online = "$____";
+var altalova = "$____";
 
 function outputScript() {
     var origin = document.getElementById("origin").value;

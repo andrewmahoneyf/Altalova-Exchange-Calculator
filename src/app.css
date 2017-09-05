@@ -37,6 +37,13 @@ label{
     font-weight: bold;
 }
 
+#root {
+    line-height: 2;
+}
+#root li {
+    padding-left: 10%;
+}
+
 @media (max-width: 800px) {
     img {
         width:40px;
