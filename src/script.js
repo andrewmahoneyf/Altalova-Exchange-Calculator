@@ -41,10 +41,7 @@ function outputScript() {
     } else {
         output.innerHTML = phrase;
         output.appendChild(document.createElement("br"));
-        output.innerHTML += '<li>Exchange Rate: ' + rate + '</li>';
-        output.innerHTML += '<li>Banks: ' + bank + '</li>';
-        output.innerHTML += '<li>Online: ' + online + '</li>';
-        output.innerHTML += '<li>Altalova: ' + altalova + '</li>';
+        output.innerHTML += "<table class='table table-bordered'> <thead> <tr> <th>Exchange Rate</th> <td>" + rate + "</td></tr></thead><tbody><tr><th>Banks</th><td>"+ bank +"</td></tr><tr><th>Online</th><td>"+ online + "</td></tr><tr><th>Altalova</th><td>" + altalova + "</td></tr></tbody></table>"
     }
 }
 

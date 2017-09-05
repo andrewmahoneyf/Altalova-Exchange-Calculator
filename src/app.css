@@ -40,8 +40,9 @@ label{
 #root {
     line-height: 2;
 }
-#root li {
-    padding-left: 10%;
+
+th {
+    max-width: 70px;
 }
 
 @media (max-width: 800px) {
