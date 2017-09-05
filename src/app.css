@@ -34,6 +34,14 @@ img {
     padding-right: 0;
 }
 
+select {
+    max-width: 175px;
+}
+
+label{
+    font-weight: bold;
+}
+
 @media (max-width: 800px) {
     img {
         width:40px;
