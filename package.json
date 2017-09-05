@@ -1,0 +1,10 @@
+{
+  "name": "Altalova Exchange Calculator",
+  "author": "Andrew Mahoney-Fernandes",
+  "homepage": "https://andrewmahoneyf.github.io/Altalova-Exchange-Calculator/",
+  "version": "0.1.0",
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+  }
+}
