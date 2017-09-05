@@ -44,6 +44,9 @@ label{
 th {
     max-width: 70px;
 }
+td{
+    max-width: 70px;
+}
 
 @media (max-width: 800px) {
     img {
@@ -55,6 +58,9 @@ th {
     }
     .fixrow {
         padding-left: 0;
+    }
+    th {
+        max-width: 170px;
     }
 }
 
