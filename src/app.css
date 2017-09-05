@@ -30,12 +30,7 @@ img {
 }
 
 .fixrow {
-    justify-content: flex-end;
-    padding-right: 0;
-}
-
-select {
-    max-width: 175px;
+    padding-left: 10%;
 }
 
 label{
@@ -51,8 +46,7 @@ label{
         align-self: center;
     }
     .fixrow {
-        justify-content: flex-start;
-        padding-right: 0;
+        padding-left: 0;
     }
 }
 

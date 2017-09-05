@@ -39,13 +39,13 @@
             </div>
             <br style="clear:both" />
 
-            <div class="form-group form-inline fixrow col-lg-12">
-                <select class="form-control col-lg-3" id="transaction">
+            <div class="form-group form-inline fixrow">
+                <label class="sr-only" for="amount">Amount (in dollars)</label>
+                <div class="input-group">
+                    <select class="form-control col-lg-3" id="transaction">
                         <option>send</option>
                         <option>recieve</option>
                     </select>
-                <label class="sr-only" for="amount">Amount (in dollars)</label>
-                <div class="input-group">
                     <div class="input-group-addon" id="symbol">R$</div>
                     <input type="number" min="0" class="form-control col-lg-4" id="amount" placeholder="Amount" />
                     <div class="input-group-addon" id="fraction">,00</div>
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <button type="button" id="btn" class="btn btn-lg btn-block btn-info col-lg-11 container">Compare</button>
+            <button type="button" id="btn" class="btn btn-lg btn-block btn-info container col-lg-11">Compare</button>
             </br>
             <div id="root" class="container col-lg-10"></div>
         </form>
