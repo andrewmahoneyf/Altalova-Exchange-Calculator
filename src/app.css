@@ -23,10 +23,10 @@ form {
 }
 
 img {
-    width:30px;
-    height:30px;
-    margin-top: 35px;
-    margin-left: 25px;
+    width: 40px;
+    height: 40px;
+    margin-top: 25px;
+    margin-left: 20px;
 }
 
 .fixrow {
@@ -39,6 +39,13 @@ label{
 
 #root {
     line-height: 2;
+    text-align: center;
+    font-weight: bold;
+}
+
+table {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 th {
@@ -46,6 +53,19 @@ th {
 }
 td{
     max-width: 70px;
+}
+.invisible {
+    display: none;
+}
+i {
+    font-size: 11px;
+}
+
+#origin, #recipient {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
 }
 
 @media (max-width: 800px) {
