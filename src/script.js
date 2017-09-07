@@ -50,6 +50,7 @@ function outputScript() {
 
     document.getElementById("tbody").classList.add("invisible");
     document.getElementById("thead").classList.add("invisible");
+    document.getElementById("difference").classList.add("invisible");
     if (!amount) {
         output.innerHTML = "Please input an amount!";
     } else if (amount < 1) {
@@ -62,8 +63,8 @@ function outputScript() {
         output.innerHTML = phrase;
         var ptax = getNum(recipient);
         document.getElementById('td').innerHTML = ptax;
-
         tableBody(ptax, recipient, transaction);
+        getDifference();
     }
 }
 
@@ -119,6 +120,20 @@ function tableBody(ptax, recipient, transaction) {
     document.getElementById("ex").innerHTML = wu;
     document.getElementById("online").innerHTML = online;
     document.getElementById("altalova").innerHTML = altalova;
+}
+
+function getDifference(){
+    var low = document.getElementById("altalova").innerHTML;
+    low = low.substring(low.indexOf("$") + 1, low.indexOf("*") - 8);
+    low = parseFloat(low);
+    var high = document.getElementById("online").innerHTML;
+    high = high.substring(high.indexOf("$") + 1, high.indexOf("*") - 8);
+    high = parseFloat(high);
+    var currency = document.getElementById("altalova").innerHTML;
+    currency = currency.substring(currency.indexOf("=") + 2, currency.indexOf("$") + 1);
+    var saved = twoDecimal(high - low);
+    document.getElementById("difference").innerHTML = "*Total Amount Saved= " + currency + saved;
+    document.getElementById("difference").classList.remove("invisible");
 }
 
 function twoDecimal(number) {
