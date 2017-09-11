@@ -1,10 +1,13 @@
 
 document.getElementById("btn").addEventListener("click", outputScript);
+document.getElementById("amount").addEventListener("keyup", outputScript);
 document.getElementById("img").addEventListener("click", flip);
 document.getElementById("transaction").addEventListener("change", updateCurrency);
 document.getElementById("origin").addEventListener("change", updateCurrency);
 document.getElementById("recipient").addEventListener("change", updateCurrency);
 
+
+// fetch ptax buy and sell BR$
 const url = 'https://api.vitortec.com/currency/quotation/v1.2/';
 fetch(url)
     .then((resp) => resp.json())
@@ -32,6 +35,7 @@ fetch(url)
         console.log(JSON.stringify(error));
     });
 
+// main function to output the table and script on compare submit
 function outputScript() {
     var output = document.getElementById("root");
     var origin = document.getElementById("origin").value;
@@ -68,6 +72,7 @@ function outputScript() {
     }
 }
 
+// helper funtion to get correct ptax 
 function getNum(recipient) {
     var num = 0.0;
     if (recipient == "USA") {
@@ -79,56 +84,71 @@ function getNum(recipient) {
     return num;
 }
 
+// function takes in the correct information and outputs the table with the data recieved
 function tableBody(ptax, recipient, transaction) {
     var amount = document.getElementById("amount").value;
     amount = parseFloat(amount);
     var iof = amount * .0038;
-    var bankRate = 3.29;
-    var wuRate = 3.26;
     var onlineRate = fourDecimal(ptax * 1.0219);
     var bankTotal;
-    var wuTotal;
-    var onlineTotalUS = twoDecimal(amount + 20);
-    var onlineTotalBR = twoDecimal(amount + 62.10 + iof);
+    if (ptax > 1) {
+        var mgFee = usFee(amount);
+        var mgRate = fourDecimal(ptax - .1742);
+        var onlineTotal = twoDecimal(amount + 20);
+        var bankRate = 3.27;
+    } else {
+        var mgFee = brFee(amount, ptax) + iof;
+        var mgRate = fourDecimal(ptax - .01742);
+        var onlineTotal = twoDecimal(amount + 62.10 + iof);
+        var bankRate = .3090
+    }
+    var mgTotal = twoDecimal(amount + mgFee);
     var altalovaTotal = amount + (amount * .03);
-    
+    ptax = fourDecimal(ptax);
 
     if (recipient == "Brazil" && transaction == "send") {
         var bank = "Total Cost= $" + bankTotal + "<br> <i>*Exchange rate offered: " + bankRate + "</i>";
-        var wu = "Total Cost= $" + wuTotal + "<br> <i>*Exchange rate offered: " + wuRate + "</i>";
-        var online = "Total Cost= $" + onlineTotalUS + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
+        var wu = "Total Cost= $" + mgTotal + "<br> <i>*Exchange rate offered: " + mgRate + "</i>";
+        var online = "Total Cost= $" + onlineTotal + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
         var altalova = "Total Cost= $" + altalovaTotal + "<br> <i>*Offers the best exchange rate: " + ptax + "</i>";
     } else if (recipient == "USA" && transaction == "send") {
-        var bank = "Total Cost= R$" + bankTotal + "<br> <i>*Exchange rate offered: " + fourDecimal(bankRate/10) + "</i>";
-        var wu = "Total Cost= R$" + wuTotal + "<br> <i>*Exchange rate offered: " + fourDecimal(wuRate/10) + "</i>";
-        var online = "Total Cost= R$" + onlineTotalBR + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
+        var bank = "Total Cost= R$" + bankTotal + "<br> <i>*Exchange rate offered: " + bankRate + "</i>";
+        var wu = "Total Cost= R$" + mgTotal + "<br> <i>*Exchange rate offered: " + mgRate + "</i>";
+        var online = "Total Cost= R$" + onlineTotal + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
         var altalova = "Total Cost= R$" + altalovaTotal + "<br> <i>*Offers the best exchange rate: " + ptax + "</i>";
     } else if (recipient == "Brazil" && transaction == "recieve") {
         var bank = "Total Cost= $" + twoDecimal((amount/bankRate)) + "<br> <i>*Exchange rate offered: " + bankRate + "</i>";
-        var wu = "Total Cost= $" + twoDecimal((amount/wuRate)) + "<br> <i>*Exchange rate offered: " + wuRate + "</i>";
+        var wu = "Total Cost= $" + twoDecimal((amount/mgRate) + mgFee) + "<br> <i>*Exchange rate offered: " + mgRate + "</i>";
         var online = "Total Cost= $" + twoDecimal((amount/onlineRate + 20)) + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
         var altalova = "Total Cost= $" + twoDecimal((amount/ptax) * 1.03) + "<br> <i>*Offers the best exchange rate: " + ptax + "</i>";
     } else {
-        var bank = "Total Cost= R$" + twoDecimal((amount*bankRate) * 1.0038) + "<br> <i>*Exchange rate offered: " + fourDecimal(bankRate/10) + "</i>";
-        var wu = "Total Cost= R$" + twoDecimal(((amount*wuRate) * 1.0038)) + "<br> <i>*Exchange rate offered: " + fourDecimal(wuRate/10) + "</i>";
-        var online = "Total Cost= R$" + twoDecimal(((amount*(onlineRate*10)) * 1.0038 + 62.10)) + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
+        var bank = "Total Cost= R$" + twoDecimal((amount/bankRate) + iof) + "<br> <i>*Exchange rate offered: " + bankRate + "</i>";
+        var wu = "Total Cost= R$" + twoDecimal((amount/mgRate) + iof + mgFee) + "<br> <i>*Exchange rate offered: " + mgRate + "</i>";
+        var online = "Total Cost= R$" + twoDecimal(((amount * (onlineRate * 10)) + iof + 62.10)) + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
         var altalova = "Total Cost= R$" + twoDecimal((amount/ptax + (amount * .03))) + "<br> <i>*Offers the best exchange rate: " + ptax + "</i>";
     }
 
     document.getElementById("tbody").classList.remove("invisible");
     document.getElementById("banks").innerHTML = bank;
-    document.getElementById("ex").innerHTML = wu;
+    document.getElementById("mg").innerHTML = wu;
     document.getElementById("online").innerHTML = online;
     document.getElementById("altalova").innerHTML = altalova;
 }
 
-function getDifference(){
+// funtion calculates the amount saved by using altalova
+function getDifference() {
     var low = document.getElementById("altalova").innerHTML;
     low = low.substring(low.indexOf("$") + 1, low.indexOf("*") - 8);
     low = parseFloat(low);
     var high = document.getElementById("online").innerHTML;
     high = high.substring(high.indexOf("$") + 1, high.indexOf("*") - 8);
     high = parseFloat(high);
+    var temp = document.getElementById("mg").innerHTML;
+    temp = temp.substring(temp.indexOf("$") + 1, temp.indexOf("*") - 8);
+    temp = parseFloat(temp);
+    if (temp > high){
+        high = temp;
+    }
     var currency = document.getElementById("altalova").innerHTML;
     currency = currency.substring(currency.indexOf("=") + 2, currency.indexOf("$") + 1);
     var saved = twoDecimal(high - low);
@@ -136,14 +156,81 @@ function getDifference(){
     document.getElementById("difference").classList.remove("invisible");
 }
 
+// helper function for two decimal limit
 function twoDecimal(number) {
     return Math.round((number) * 100) / 100;
 }
 
+// helper function for two decimal limit
 function fourDecimal(number) {
     return number.toFixed(4);
 }
 
+// calculates MoneyGram fee to send money from br to us
+function brFee(amount, ptax) {
+    var fee = 22;
+    if (amount > 235 && amount <= 355) {
+        fee = 30;
+    } else if (amount > 355 && amount <= 465) {
+        fee = 34;
+    } else if (amount > 465 && amount <= 580) {
+        fee = 38;
+    } else if (amount > 580 && amount <= 870) {
+        fee = 42;
+    } else if (amount > 870 && amount <= 1165) {
+        fee = 46;
+    } else if (amount > 1165 && amount <= 1450) {
+        fee = 50;
+    } else if (amount > 1450 && amount <= 1740) {
+        fee = 54;
+    } else if (amount > 1740 && amount <= 2020) {
+        fee = 58;
+    } else if (amount > 2020 && amount <= 2320) {
+        fee = 63;
+    } else if (amount > 2320 && amount <= 2900) {
+        fee = 72;
+    } else if (amount > 2900 && amount <= 3480) {
+        fee = 84;
+    } else if (amount > 3480 && amount <= 4070) {
+        fee = 96;
+    } else if (amount > 4070 && amount <= 4650) {
+        fee = 108;
+    } else if (amount > 4650 && amount <= 5200) {
+        fee = 120;
+    } else if (amount > 5200 && amount <= 5800) {
+        fee = 132;
+    } else if (amount > 5800 && amount <= 6380) {
+        fee = 144;
+    } else if (amount > 6380 && amount <= 6950) {
+        fee = 156;
+    } else if (amount > 6950 && amount <= 7530) {
+        fee = 168;
+    } else if (amount > 7530 && amount <= 8100) {
+        fee = 180;
+    } else if (amount > 8100 && amount <= 8700) {
+        fee = 192;
+    } else if (amount > 8700 && amount <= 9280) {
+        fee = 204;
+    } else if (amount > 9280) {
+        fee = 216
+    }
+    return fee / ptax;
+}
+
+// calculates MoneyGram fee to send money from us to br
+function usFee(amount) {
+    var fee = 9.99;
+    if (amount >= 1000) {
+        fee = 21.20
+    }
+    if (amount >= 1010) {
+        var mult = (amount - 1010)/10;
+        fee += mult * .20;
+    }
+    return fee;
+}
+
+// function fo the flip button, switches origin and recipient and the currencys 
 function flip() {
     if (document.getElementById("origin").selectedIndex == "0") {
         document.getElementById("origin").selectedIndex = "1";
@@ -159,6 +246,7 @@ function flip() {
     updateCurrency();
 }
 
+// alterate between currencies 
 function updateCurrency() {
     if (document.getElementById("transaction").selectedIndex == "1") {
         var recipient = document.getElementById("recipient").value;
@@ -176,5 +264,8 @@ function updateCurrency() {
     } else {
         document.getElementById("symbol").innerHTML = "R$";
         document.getElementById("fraction").innerHTML = ",00";
+    }
+    if (document.getElementById("amount").value) {
+        outputScript();
     }
 }
