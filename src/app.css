@@ -56,12 +56,15 @@ label{
 
 table {
     font-size: 18px;
-    font-weight: bold;
+}
+.table td, .table th {
+    vertical-align: middle;
 }
 
 th {
     max-width: 72px;
     text-align: center;
+    font-weight: bold;
 }
 td{
     max-width: 70px;

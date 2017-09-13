@@ -44,7 +44,7 @@ function outputScript() {
     if (transaction == "send") {
         var phrase = "Cost to send " + amount + fraction + " " + currency + " from " + origin + " to " + recipient + ":";
     } else {
-        var phrase = "Cost to recieve " + amount + fraction + " " + currency + " in " + recipient + " from " + origin + ":";
+        var phrase = "Cost to receive " + amount + fraction + " " + currency + " in " + recipient + " from " + origin + ":";
     }
 
     document.getElementById("tbody").classList.add("invisible");
@@ -79,7 +79,7 @@ function getNum(recipient) {
     return num;
 }
 
-// function takes in the correct information and outputs the table with the data recieved
+// function takes in the correct information and outputs the table with the data received
 function tableBody(ptax, recipient, transaction) {
     var amount = document.getElementById("amount").value;
     amount = parseFloat(amount);
@@ -110,16 +110,16 @@ function tableBody(ptax, recipient, transaction) {
     ptax = fiveDecimal(ptax);
 
     if (recipient == "Brazil" && transaction == "send") {
-        var bank = "Total Cost= $" + bankTotal + "<br> Recieved= R$" + toBRL(twoDecimal(amount * bankRate));
-        var mg = "Total Cost= $" + mgTotal + "<br> Recieved= R$" + toBRL(twoDecimal(amount * mgRate));
+        var bank = "Total Cost= $" + bankTotal + "<br> Received= R$" + toBRL(twoDecimal(amount * bankRate));
+        var mg = "Total Cost= $" + mgTotal + "<br> Received= R$" + toBRL(twoDecimal(amount * mgRate));
         var online = "Service not offered";
-        var altalova = "Total Cost= $" + altalovaTotal + "<br> Recieved= R$" + toBRL(twoDecimal(amount * ptax));
+        var altalova = "Total Cost= $" + altalovaTotal + "<br> Received= R$" + toBRL(twoDecimal(amount * ptax));
     } else if (recipient == "USA" && transaction == "send") {
-        var bank = "Total Cost= R$" + toBRL(bankTotal) + "<br> Recieved= $" + twoDecimal(amount/ (bankRate * 10));
-        var mg = "Total Cost= R$" + toBRL(mgTotal) + "<br> Recieved= $" + twoDecimal(amount/ (mgRate * 10));
-        var online = "Total Cost= R$" + toBRL(onlineTotal) + "<br> Recieved= $" + twoDecimal(amount/ (onlineRate * 10));
-        var altalova = "Total Cost= R$" + toBRL(altalovaTotal) + "<br> Recieved= $" + twoDecimal(amount/ (ptax * 10));
-    } else if (recipient == "Brazil" && transaction == "recieve") {
+        var bank = "Total Cost= R$" + toBRL(bankTotal) + "<br> Received= $" + twoDecimal(amount/ (bankRate * 10));
+        var mg = "Total Cost= R$" + toBRL(mgTotal) + "<br> Received= $" + twoDecimal(amount/ (mgRate * 10));
+        var online = "Total Cost= R$" + toBRL(onlineTotal) + "<br> Received= $" + twoDecimal(amount/ (onlineRate * 10));
+        var altalova = "Total Cost= R$" + toBRL(altalovaTotal) + "<br> Received= $" + twoDecimal(amount/ (ptax * 10));
+    } else if (recipient == "Brazil" && transaction == "receive") {
         var bank = "Total Cost= $" + twoDecimal((amount/ bankRate) + bankFee);
         var mg = "Total Cost= $" + twoDecimal((amount/ mgRate) + mgFee);
         var online = "Service not offered";
