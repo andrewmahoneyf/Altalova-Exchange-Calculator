@@ -22,11 +22,16 @@ form {
     padding: 25px;
 }
 
-img {
+#swap {
     width: 40px;
     height: 40px;
     margin-top: 25px;
     margin-left: 20px;
+}
+
+#logo {
+    width: 80px;
+    height: 60px;
 }
 
 .fixrow {
@@ -38,14 +43,14 @@ label{
 }
 
 #root {
-    line-height: 2;
+    padding-bottom: 1%;
     text-align: center;
     font-weight: bold;
     font-size: 20px;
 }
 
 table {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
 }
 
