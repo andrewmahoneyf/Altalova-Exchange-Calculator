@@ -11,9 +11,6 @@ fetch(url)
     .then((resp) => resp.json())
     .then(function (data) {
         let countries = data.data.currency;
-        let date = data.data.date;
-        date = date.substring(date.indexOf("-") + 1, date.indexOf(" "));
-
         return countries.map(function (country) {
             let span = document.createElement('span');
             bid = country.buying;
@@ -22,7 +19,6 @@ fetch(url)
             ask = ask.substring(0, ask.length - 4);
             if (country.code == "USD") {
                 span.innerHTML = `${"BID: " + bid} ${"ASK: " + ask}`;
-                document.getElementById('th').innerHTML += "<br>" + date + " (PTAX)";
                 document.getElementById('buy').innerHTML = bid;
                 document.getElementById('sell').innerHTML = ask;
                 document.getElementById('td').innerHTML = span.innerHTML;
@@ -145,6 +141,7 @@ function tableBody(ptax, recipient, transaction) {
 
 // funtion calculates the amount saved by using altalova
 function getDifference(recipient) {
+    document.getElementById("difference").classList.add("difference");
     var low = document.getElementById("altalova").innerHTML;
     low = low.substring(low.indexOf("$") + 1, low.indexOf("*") - 8);
     low = parseFloat(low);
