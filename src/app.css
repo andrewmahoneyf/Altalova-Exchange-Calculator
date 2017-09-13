@@ -60,11 +60,14 @@ table {
 }
 
 th {
-    max-width: 70px;
+    max-width: 72px;
     text-align: center;
 }
 td{
     max-width: 70px;
+}
+#th {
+    max-width: 68px;
 }
 .invisible {
     display: none;
@@ -75,7 +78,7 @@ i {
 
 .difference {
     color: red;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
 }
 
@@ -86,25 +89,41 @@ i {
     text-overflow: '';
 }
 
-@media (max-width: 800px) {
-    img {
+@media (max-width: 992px) {
+    #swap {
         width:40px;
         height:40px;
         margin-top: 0px;
         margin-left: 220px;
         align-self: center;
+        transform: rotate(90deg);
     }
     .fixrow {
         padding-left: 0;
     }
-    th {
-        max-width: 170px;
+    .h2, h2 {
+        font-size: 2rem;
+    }
+    table, #root {
+        font-size: 16px;
+    }
+    .difference {
+        font-size: 22px;
     }
 }
 
 @media (max-width: 450px) {
-    img {
+    #swap {
         margin-top: 0px;
         margin-left: 130px;
+    }
+    .h2, h2 {
+        font-size: 1.5rem;
+    }
+    table, #root, .difference {
+        font-size: 14px;
+    }
+    #fraction, #currency {
+        display: none;
     }
 }
