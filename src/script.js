@@ -27,6 +27,7 @@ fetch(url)
     })
     .catch(function (error) {
         console.log(JSON.stringify(error));
+        console.log("did not fetch data correctly");
     });
 
 // main function to output the table and script on compare submit
@@ -87,7 +88,6 @@ function tableBody(ptax, recipient, transaction) {
     if (ptax > 1) { // sending from US
         var mgFee = usFee(amount);
         var mgRate = fiveDecimal(ptax - .1742);
-        //var onlineTotal = twoDecimal(amount + 20);
         var bankFee = 45; // figure out
         var bankRate = 2.99;
     } else { // sending from Brazil
@@ -109,33 +109,39 @@ function tableBody(ptax, recipient, transaction) {
     ptax = fiveDecimal(ptax);
 
     if (recipient == "Brazil" && transaction == "send") {
-        var bank = "Total Cost= $" + bankTotal + "<br> Recieved= R$" + twoDecimal(amount * bankRate) + "<br><i>*Exchange rate offered: " + bankRate + "</i>";
-        var mg = "Total Cost= $" + mgTotal + "<br> Recieved= R$" + twoDecimal(amount * mgRate) + "<br> <i>*Exchange rate offered: " + mgRate + "</i>";
-        //var online = "Total Cost= $" + onlineTotal + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
+        var bank = "Total Cost= $" + bankTotal + "<br> Recieved= R$" + twoDecimal(amount * bankRate);
+        var mg = "Total Cost= $" + mgTotal + "<br> Recieved= R$" + twoDecimal(amount * mgRate);
         var online = "Service not offered";
-        var altalova = "Total Cost= $" + altalovaTotal + "<br> Recieved= R$" + twoDecimal(amount * ptax) + "<br> <i>*Offers the best exchange rate: " + ptax + "</i>";
+        var altalova = "Total Cost= $" + altalovaTotal + "<br> Recieved= R$" + twoDecimal(amount * ptax);
     } else if (recipient == "USA" && transaction == "send") {
-        var bank = "Total Cost= R$" + bankTotal + "<br> Recieved= $" + twoDecimal(amount/ (bankRate * 10)) + "<br> <i>*Exchange rate offered: " + bankRate + "</i>";
-        var mg = "Total Cost= R$" + mgTotal + "<br> Recieved= $" + twoDecimal(amount/ (mgRate * 10)) + "<br> <i>*Exchange rate offered: " + mgRate + "</i>";
-        var online = "Total Cost= R$" + onlineTotal + "<br> Recieved= $" + twoDecimal(amount/ (onlineRate * 10)) + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
-        var altalova = "Total Cost= R$" + altalovaTotal + "<br> Recieved= $" + twoDecimal(amount/ (ptax * 10)) + "<br> <i>*Offers the best exchange rate: " + ptax + "</i>";
+        var bank = "Total Cost= R$" + bankTotal + "<br> Recieved= $" + twoDecimal(amount/ (bankRate * 10));
+        var mg = "Total Cost= R$" + mgTotal + "<br> Recieved= $" + twoDecimal(amount/ (mgRate * 10));
+        var online = "Total Cost= R$" + onlineTotal + "<br> Recieved= $" + twoDecimal(amount/ (onlineRate * 10));
+        var altalova = "Total Cost= R$" + altalovaTotal + "<br> Recieved= $" + twoDecimal(amount/ (ptax * 10));
     } else if (recipient == "Brazil" && transaction == "recieve") {
-        var bank = "Total Cost= $" + twoDecimal((amount/ bankRate)) + "<br> <i>*Exchange rate offered: " + bankRate + "</i>";
-        var mg = "Total Cost= $" + twoDecimal((amount/ mgRate) + mgFee) + "<br> <i>*Exchange rate offered: " + mgRate + "</i>";
-        //var online = "Total Cost= $" + twoDecimal((amount/onlineRate + 20)) + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
+        var bank = "Total Cost= $" + twoDecimal((amount/ bankRate));
+        var mg = "Total Cost= $" + twoDecimal((amount/ mgRate) + mgFee);
         var online = "Service not offered";
-        var altalova = "Total Cost= $" + twoDecimal((amount/ ptax) * 1.03) + "<br> <i>*Offers the best exchange rate: " + ptax + "</i>";
+        var altalova = "Total Cost= $" + twoDecimal((amount/ ptax) * 1.03);
     } else {
-        var bank = "Total Cost= R$" + twoDecimal((amount/ bankRate) + iof) + "<br> <i>*Exchange rate offered: " + bankRate + "</i>";
-        var mg = "Total Cost= R$" + twoDecimal((amount/ mgRate) + iof + mgFee) + "<br> <i>*Exchange rate offered: " + mgRate + "</i>";
-        var online = "Total Cost= R$" + twoDecimal(((amount * (onlineRate * 10)) + iof + 62.10)) + "<br> <i>*Exchange rate offered: " + onlineRate + "</i>";
-        var altalova = "Total Cost= R$" + twoDecimal((amount/ ptax + (amount * .03))) + "<br> <i>*Offers the best exchange rate: " + ptax + "</i>";
+        var bank = "Total Cost= R$" + twoDecimal((amount/ bankRate) + iof);
+        var mg = "Total Cost= R$" + twoDecimal((amount/ mgRate) + iof + mgFee);
+        var online = "Total Cost= R$" + twoDecimal(((amount * (onlineRate * 10)) + iof + 62.10));
+        var altalova = "Total Cost= R$" + twoDecimal((amount/ ptax + (amount * .03)));
     }
 
     document.getElementById("tbody").classList.remove("invisible");
+    document.getElementById("banksHead").innerHTML = bankRate;
     document.getElementById("banks").innerHTML = bank;
+    document.getElementById("mgHead").innerHTML = mgRate;
     document.getElementById("mg").innerHTML = mg;
+    if (recipient == "USA"){
+        document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate offered: " + onlineRate + "</i>";
+    } else {
+        document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate not available</i>";
+    }
     document.getElementById("online").innerHTML = online;
+    document.getElementById("altalovaHead").innerHTML = ptax;
     document.getElementById("altalova").innerHTML = altalova;
 }
 
@@ -143,20 +149,20 @@ function tableBody(ptax, recipient, transaction) {
 function getDifference(recipient) {
     document.getElementById("difference").classList.add("difference");
     var low = document.getElementById("altalova").innerHTML;
-    low = low.substring(low.indexOf("$") + 1, low.indexOf("*") - 8);
+    low = low.substring(low.indexOf("$") + 1, low.indexOf(".") + 3);
     low = parseFloat(low);
     var high = document.getElementById("mg").innerHTML;
-    high = high.substring(high.indexOf("$") + 1, high.indexOf("*") - 8);
+    high = high.substring(high.indexOf("$") + 1, high.indexOf(".") + 3);
     high = parseFloat(high);
     var bank = document.getElementById("banks").innerHTML;
-    bank = bank.substring(bank.indexOf("$") + 1, bank.indexOf("*") - 8);
+    bank = bank.substring(bank.indexOf("$") + 1, bank.indexOf(".") + 3);
     bank = parseFloat(bank);
     if (bank > high) {
         high = bank;
     }
     if (recipient == "USA") {
         var temp = document.getElementById("online").innerHTML;
-        temp = temp.substring(temp.indexOf("$") + 1, temp.indexOf("*") - 8);
+        temp = temp.substring(temp.indexOf("$") + 1, temp.indexOf(".") + 3);
         temp = parseFloat(temp);
         if (temp > high) {
             high = temp;
