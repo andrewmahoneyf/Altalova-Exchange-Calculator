@@ -196,8 +196,10 @@ function altalovaSpread(amount, ptax){
         spread = 1.014;
     } else if (amount < 3800){
         spread = 1.012;
-    } else if (amount >= 3800){
+    } else if (amount < 4000){
         spread = 1.010;
+    } else if (amount >= 4000){
+        spread = 1.008;
     }
     return spread;
 }
@@ -209,6 +211,8 @@ function getDifference(recipient) {
         split = ","
     }
     document.getElementById("difference").classList.add("difference");
+    document.getElementById("bred").classList.remove("red");
+    document.getElementById("tred").classList.remove("red");
     var low = document.getElementById("altalova").innerHTML;
     low = low.substring(low.indexOf("$") + 1, low.indexOf(split) + 3);
     low = parseFloat(low);
@@ -220,15 +224,11 @@ function getDifference(recipient) {
     bank = parseFloat(bank);
     if (bank > high) {
         high = bank;
+        document.getElementById("bred").classList.add("red");
+    } else {
+        document.getElementById("tred").classList.add("red");
     }
-    if (recipient == "USA") {
-        var temp = document.getElementById("online").innerHTML;
-        temp = temp.substring(temp.indexOf("$") + 1, temp.indexOf(split) + 3);
-        temp = parseFloat(temp);
-        if (temp > high) {
-            high = temp;
-        }
-    }
+
     var currency = document.getElementById("altalova").innerHTML;
     currency = currency.substring(currency.indexOf("=") + 2, currency.indexOf("$") + 1);
     var saved = twoDecimal(high - low);
