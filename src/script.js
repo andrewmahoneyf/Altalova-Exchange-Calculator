@@ -83,7 +83,8 @@ function getNum(recipient) {
 function tableBody(ptax, recipient, transaction) {
     var amount = document.getElementById("amount").value;
     amount = parseFloat(amount);
-    var iof = .0038; 
+    var iof = .0038;
+    var ourSpread = altalovaSpread(amount, ptax); 
     if (ptax > 1) { // sending from US
         var mgFee = usFee(amount);
         var mgRate = fiveDecimal(ptax - .1742);
@@ -106,29 +107,29 @@ function tableBody(ptax, recipient, transaction) {
     var mgTotal = twoDecimal(amount + mgFee);
     var onlineTotal = twoDecimal(amount + 62.10);
     var bankTotal = twoDecimal(amount + bankFee);
-    var altalovaTotal = twoDecimal(amount + (amount * .03));
+    var altalovaTotal = twoDecimal(amount * ourSpread);
     ptax = fiveDecimal(ptax);
 
     if (recipient == "Brazil" && transaction == "send") {
-        var bank = "Total Cost= $" + bankTotal + "<br> Received= R$" + toBRL(twoDecimal(amount * bankRate));
-        var mg = "Total Cost= $" + mgTotal + "<br> Received= R$" + toBRL(twoDecimal(amount * mgRate));
+        var bank = "Total Cost=  $" + bankTotal + "<br>  Received=  R$" + toBRL(twoDecimal(amount * bankRate));
+        var mg = "Total Cost=  $" + mgTotal + "<br>  Received=  R$" + toBRL(twoDecimal(amount * mgRate));
         var online = "Service not offered";
-        var altalova = "Total Cost= $" + altalovaTotal + "<br> Received= R$" + toBRL(twoDecimal(amount * ptax));
+        var altalova = "Total Cost=  $" + altalovaTotal + "<br>  Received=  R$" + toBRL(twoDecimal(amount * ptax));
     } else if (recipient == "USA" && transaction == "send") {
-        var bank = "Total Cost= R$" + toBRL(bankTotal) + "<br> Received= $" + twoDecimal(amount/ (bankRate * 10));
-        var mg = "Total Cost= R$" + toBRL(mgTotal) + "<br> Received= $" + twoDecimal(amount/ (mgRate * 10));
-        var online = "Total Cost= R$" + toBRL(onlineTotal) + "<br> Received= $" + twoDecimal(amount/ (onlineRate * 10));
-        var altalova = "Total Cost= R$" + toBRL(altalovaTotal) + "<br> Received= $" + twoDecimal(amount/ (ptax * 10));
+        var bank = "Total Cost=  R$" + toBRL(bankTotal) + "<br>  Received=  $" + twoDecimal(amount/ (bankRate * 10));
+        var mg = "Total Cost=  R$" + toBRL(mgTotal) + "<br>  Received=  $" + twoDecimal(amount/ (mgRate * 10));
+        var online = "Total Cost=  R$" + toBRL(onlineTotal) + "<br>  Received=  $" + twoDecimal(amount/ (onlineRate * 10));
+        var altalova = "Total Cost=  R$" + toBRL(altalovaTotal) + "<br>  Received=  $" + twoDecimal(amount/ (ptax * 10));
     } else if (recipient == "Brazil" && transaction == "receive") {
         var bank = "Total Cost= $" + twoDecimal((amount/ bankRate) + bankFee);
         var mg = "Total Cost= $" + twoDecimal((amount/ mgRate) + mgFee);
         var online = "Service not offered";
-        var altalova = "Total Cost= $" + twoDecimal((amount/ ptax) * 1.03);
+        var altalova = "Total Cost= $" + twoDecimal((amount/ ptax) * ourSpread);
     } else {
         var bank = "Total Cost= R$" + toBRL(twoDecimal((amount * (bankRate * 10) + (bankFee * ptax))));
         var mg = "Total Cost= R$" + toBRL(twoDecimal((amount * (mgRate * 10) + (mgFee * ptax))));
         var online = "Total Cost= R$" + toBRL(twoDecimal(((amount * (onlineRate * 10)) + 62.10)));
-        var altalova = "Total Cost= R$" + toBRL(twoDecimal((amount * (ptax * 10) * 1.03)));
+        var altalova = "Total Cost= R$" + toBRL(twoDecimal((amount * (ptax * 10) * ourSpread)));
     }
 
     document.getElementById("tbody").classList.remove("invisible");
@@ -168,6 +169,39 @@ function getSpread(amount, ptax){
     return spread;
 }
 
+function altalovaSpread(amount, ptax){
+    if (ptax > 1) {
+        amount = amount * ptax;
+    }
+    var spread = 1.03;
+    if (amount <= 1000){
+        spread = 1.035;
+    } else if (amount < 2000){
+        spread = 1.03;
+    }  else if (amount < 2200){
+        spread = 1.028;
+    } else if (amount < 2400){
+        spread = 1.026;
+    } else if (amount < 2600){
+        spread = 1.024;
+    } else if (amount < 2800){
+        spread = 1.022;
+    } else if (amount < 3000){
+        spread = 1.020;
+    } else if (amount < 3200){
+        spread = 1.018;
+    } else if (amount < 3400){
+        spread = 1.016;
+    } else if (amount < 3600){
+        spread = 1.014;
+    } else if (amount < 3800){
+        spread = 1.012;
+    } else if (amount >= 3800){
+        spread = 1.010;
+    }
+    return spread;
+}
+
 // funtion calculates the amount saved by using altalova
 function getDifference(recipient) {
     var split = ".";
@@ -202,7 +236,7 @@ function getDifference(recipient) {
         if (currency == "R$") {
             saved = toBRL(saved); 
         }
-        document.getElementById("difference").innerHTML = "*Total Amount Saved= " + currency + saved;
+        document.getElementById("difference").innerHTML = "*Total Amount Saved= <b>" + currency + saved + "</b>";
         document.getElementById("difference").classList.remove("invisible");
     }
 }

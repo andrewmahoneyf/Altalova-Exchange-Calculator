@@ -1,5 +1,5 @@
 body{
-    color: #e9ecef;
+    color: white;
 }
 
 .form-box {
@@ -57,8 +57,19 @@ label{
 table {
     font-size: 18px;
 }
+#tbody td, #tbody th {
+    border: 1px solid black;
+}
+#tbody {
+    /*background-color: #e9ecef;
+    color: black; */
+    white-space:pre-wrap;
+}
 .table td, .table th {
     vertical-align: middle;
+}
+.table-bordered {
+    border: 0px solid black;
 }
 
 th {
@@ -78,11 +89,13 @@ td{
 i {
     font-size: 11px;
 }
+#altalova{
+    font-weight: bold;
+}
 
 .difference {
     color: red;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 30px;
 }
 
 #origin, #recipient {
@@ -111,7 +124,7 @@ i {
         font-size: 16px;
     }
     .difference {
-        font-size: 22px;
+        font-size: 25px;
     }
 }
 
