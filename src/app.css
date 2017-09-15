@@ -61,8 +61,6 @@ table {
     border: 1px solid black;
 }
 #tbody {
-    /*background-color: #e9ecef;
-    color: black; */
     white-space:pre-wrap;
 }
 .table td, .table th {
@@ -94,6 +92,7 @@ i {
 }
 #altalova{
     font-weight: bold;
+    white-space:pre;
 }
 
 .difference {
