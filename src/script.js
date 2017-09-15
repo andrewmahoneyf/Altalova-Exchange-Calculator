@@ -174,9 +174,11 @@ function altalovaSpread(amount, ptax){
         amount = amount * ptax;
     }
     var spread = 1.03;
-    if (amount <= 1000){
+    if (amount < 500){
+        spread = 1.04;
+    } else if (amount < 1000){
         spread = 1.035;
-    } else if (amount < 2000){
+    }  else if (amount < 2000){
         spread = 1.03;
     }  else if (amount < 2200){
         spread = 1.028;
