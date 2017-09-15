@@ -27,8 +27,8 @@ form {
 }
 
 #swap {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     margin-top: 25px;
     margin-left: 20px;
 }
@@ -130,20 +130,22 @@ input[type="number"] {
 } 
 
 @keyframes wiggle {
-    0%   {transform: rotate(5deg);}
-    50%  {transform: rotateZ(-5deg);}
-    100% {transform: rotateZ(5deg);}
+    0%   {transform: rotate(10deg);}
+    50%  {transform: rotateZ(-10deg);}
+    100% {transform: rotateZ(10deg);}
 }
-
+@keyframes wiggle2 {
+    0%   {transform: rotate(95deg);}
+    50%  {transform: rotateZ(-95deg);}
+    100% {transform: rotateZ(95deg);}
+}
 
 @media (max-width: 992px) {
     #swap {
-        width:40px;
-        height:40px;
         margin-top: 0px;
         margin-left: 220px;
         align-self: center;
-        transform: rotate(90deg);
+        animation: wiggle2 1.5s ease-in-out infinite;
     }
     .fixrow {
         padding-left: 0;
@@ -156,6 +158,9 @@ input[type="number"] {
     }
     .difference {
         font-size: 25px;
+    }
+    #altalova{
+        white-space:pre-wrap;
     }
 }
 
