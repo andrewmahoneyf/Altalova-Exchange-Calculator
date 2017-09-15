@@ -119,6 +119,9 @@ function tableBody(ptax, recipient, transaction) {
         var bank = "Total Cost=  R$" + toBRL(bankTotal) + "<br>  Received=  $" + twoDecimal(amount/ (bankRate * 10));
         var mg = "Total Cost=  R$" + toBRL(mgTotal) + "<br>  Received=  $" + twoDecimal(amount/ (mgRate * 10));
         var online = "Total Cost=  R$" + toBRL(onlineTotal) + "<br>  Received=  $" + twoDecimal(amount/ (onlineRate * 10));
+        if (amount >= 10000) {
+            online = "Transfer limit reached"
+        }
         var altalova = "Total Cost=  R$" + toBRL(altalovaTotal) + "<br>  Received=  $" + twoDecimal(amount/ (ptax * 10));
     } else if (recipient == "Brazil" && transaction == "receive") {
         var bank = "Total Cost= $" + twoDecimal((amount/ bankRate) + bankFee);
@@ -129,6 +132,9 @@ function tableBody(ptax, recipient, transaction) {
         var bank = "Total Cost= R$" + toBRL(twoDecimal((amount * (bankRate * 10) + (bankFee * ptax))));
         var mg = "Total Cost= R$" + toBRL(twoDecimal((amount * (mgRate * 10) + (mgFee * ptax))));
         var online = "Total Cost= R$" + toBRL(twoDecimal(((amount * (onlineRate * 10)) + 62.10)));
+        if (amount >= 3000) {
+            online = "Transfer limit reached"
+        }    
         var altalova = "Total Cost= R$" + toBRL(twoDecimal((amount * (ptax * 10) * ourSpread)));
     }
 
@@ -182,9 +188,9 @@ function altalovaSpread(amount, ptax){
         spread = 1.03;
     }  else if (amount < 2200){
         spread = 1.028;
-    } else if (amount < 2400){
+    } else if (amount < 2380){
         spread = 1.026;
-    } else if (amount < 2600){
+    } else if (amount < 2580){
         spread = 1.024;
     } else if (amount < 2800){
         spread = 1.022;
@@ -200,8 +206,14 @@ function altalovaSpread(amount, ptax){
         spread = 1.012;
     } else if (amount < 4000){
         spread = 1.010;
-    } else if (amount >= 4000){
+    } else if (amount < 7750){
         spread = 1.008;
+    } else if (amount < 8850){
+        spread = 1.007;
+    } else if (amount < 10000){
+        spread = 1.006;
+    } else if (amount >= 10000){
+        spread = 1.005;
     }
     return spread;
 }
