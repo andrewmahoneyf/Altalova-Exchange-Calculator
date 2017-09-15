@@ -145,7 +145,7 @@ input[type="number"] {
         margin-top: 0px;
         margin-left: 220px;
         align-self: center;
-        animation: wiggle2 1.5s ease-in-out infinite;
+        animation: wiggle2 2s ease-in-out infinite;
     }
     .fixrow {
         padding-left: 0;

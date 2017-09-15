@@ -1,3 +1,8 @@
+document.getElementById("amount").addEventListener("keydown", function(event) {
+    if (event.keyCode == 13 || event.keyCode == 190 || event.keyCode == 110) {
+        event.preventDefault();
+    }
+});
 document.getElementById("amount").addEventListener("keyup", outputScript);
 document.getElementById("swap").addEventListener("click", flip);
 document.getElementById("transaction").addEventListener("change", updateCurrency);
