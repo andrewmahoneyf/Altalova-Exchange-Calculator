@@ -160,7 +160,7 @@ function tableBody(ptax, recipient, transaction) {
     if (transaction == "send") {
         document.getElementById("banksHead").innerHTML = bankRate + "<br>Total Cost: " + bankCost;
         document.getElementById("mgHead").innerHTML = mgRate + "<br>Total Cost: " + mgCost;
-        if (recipient == "USA"){
+        if (recipient == "USA" && amount < 10000){
             document.getElementById("onlineHead").innerHTML = "<i>*Exchange Rate: " + onlineRate + "<br>Total Cost: " + onlineCost + "</i>";
         } else {
             document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate not available</i>";
@@ -169,7 +169,7 @@ function tableBody(ptax, recipient, transaction) {
     } else {
         document.getElementById("banksHead").innerHTML = bankRate
         document.getElementById("mgHead").innerHTML = mgRate;
-        if (recipient == "USA"){
+        if (recipient == "USA" && amount < 3000){
             document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate: " + onlineRate + "</i>";
         } else {
             document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate not available</i>";
