@@ -46,10 +46,17 @@ function outputScript() {
     var amount = document.getElementById("amount").value;
     var currency = document.getElementById("currency").innerHTML;
     var fraction = document.getElementById("fraction").innerHTML;
-    if (transaction == "send") {
-        var phrase = "Cost to send " + amount + fraction + " " + currency + " from " + origin + " to " + recipient + ":";
+    if (recipient == "USA"){
+        var flag = "<img src='images/USflag.png' alt='US flag' id='flag'>";
+        var altflag= "<img src='images/BRflag.png' alt='US flag' id='flag'>";
     } else {
-        var phrase = "Cost to receive " + amount + fraction + " " + currency + " in " + recipient + " from " + origin + ":";
+        var flag = "<img src='images/BRflag.png' alt='Brazil flag' id='flag'>";
+        var altflag= "<img src='images/USflag.png' alt='US flag' id='flag'>";
+    }
+    if (transaction == "send") {
+        var phrase = "Amount received from sending " + amount + " " + currency + " to " + flag + ":";
+    } else {
+        var phrase = "Cost to receive " + amount + " " + currency + " from " + altflag + ":";
     }
 
     document.getElementById("tbody").classList.add("invisible");
@@ -68,7 +75,7 @@ function outputScript() {
         var ptax = getNum(recipient);
         document.getElementById('td').innerHTML = ptax;
         tableBody(ptax, recipient, transaction);
-        getDifference(recipient);
+        getDifference(recipient, transaction);
     }
 }
 
@@ -92,12 +99,12 @@ function tableBody(ptax, recipient, transaction) {
     var ourSpread = altalovaSpread(amount, ptax); 
     if (ptax > 1) { // sending from US
         var mgFee = usFee(amount);
-        var mgRate = fiveDecimal(ptax - .1742);
+        var mgRate = fourDecimal(ptax - .1742);
         var bankFee = 45; // figure out
-        var bankRate = fiveDecimal(ptax - .1);
+        var bankRate = fourDecimal(ptax - .1);
     } else { // sending from Brazil
         var mgFee = brFee(amount, ptax);
-        var mgRate = fiveDecimal(ptax + .01742 * (1 + iof));
+        var mgRate = fourDecimal(ptax + .01742 * (1 + iof));
         var bankFee = amount * .0166;
         if (bankFee < 36) {
             bankFee = 36;
@@ -105,56 +112,74 @@ function tableBody(ptax, recipient, transaction) {
             bankFee = 166;
         }
         bankFee = (bankFee/ptax);
-        var bankRate = fiveDecimal((ptax + .015) * (1 + iof));
+        var bankRate = fourDecimal((ptax + .015) * (1 + iof));
         var onlineSpread = getSpread(amount, ptax);
-        var onlineRate = fiveDecimal(ptax * (1 + onlineSpread + iof));
+        var onlineRate = fourDecimal(ptax * (1 + onlineSpread + iof));
     }
     var mgTotal = twoDecimal(amount + mgFee);
     var onlineTotal = twoDecimal(amount + 62.10);
     var bankTotal = twoDecimal(amount + bankFee);
     var altalovaTotal = twoDecimal(amount * ourSpread);
-    ptax = fiveDecimal(ptax);
+    ptax = fourDecimal(ptax);
 
     if (recipient == "Brazil" && transaction == "send") {
-        var bank = "Total Cost=  $" + bankTotal + "<br>  Received=  R$" + toBRL(twoDecimal(amount * bankRate));
-        var mg = "Total Cost=  $" + mgTotal + "<br>  Received=  R$" + toBRL(twoDecimal(amount * mgRate));
-        var online = "Service not offered";
-        var altalova = "Total Cost=  $" + altalovaTotal + "<br>  Received=  R$" + toBRL(twoDecimal(amount * ptax));
+        var bank = "R$" + toBRL(twoDecimal(amount * bankRate));
+        var bankCost = "$" + bankTotal;
+        var mg = "R$" + toBRL(twoDecimal(amount * mgRate));
+        var mgCost = "$" + mgTotal;
+        var online = "<div style='font-size: 25px'>Service not offered</div>";
+        var altalova = "R$" + toBRL(twoDecimal(amount * ptax));
+        var altalovaCost = "$" + altalovaTotal;
     } else if (recipient == "USA" && transaction == "send") {
-        var bank = "Total Cost=  R$" + toBRL(bankTotal) + "<br>  Received=  $" + twoDecimal(amount/ (bankRate * 10));
-        var mg = "Total Cost=  R$" + toBRL(mgTotal) + "<br>  Received=  $" + twoDecimal(amount/ (mgRate * 10));
-        var online = "Total Cost=  R$" + toBRL(onlineTotal) + "<br>  Received=  $" + twoDecimal(amount/ (onlineRate * 10));
-        if (amount >= 10000) {
-            online = "Transfer limit reached"
+        var bank = "$" + twoDecimal(amount/ (bankRate * 10));
+        var bankCost = "R$" + toBRL(bankTotal);
+        var mg = "$" + twoDecimal(amount/ (mgRate * 10));
+        var mgCost = "R$" + toBRL(mgTotal);
+        var online = "<div style='font-size: 23px'>Transfer limit reached</div>";
+        if (amount < 10000) {
+            var online = "$" + twoDecimal(amount/ (onlineRate * 10));
+            var onlineCost = "R$" + toBRL(mgTotal);
         }
-        var altalova = "Total Cost=  R$" + toBRL(altalovaTotal) + "<br>  Received=  $" + twoDecimal(amount/ (ptax * 10));
+        var altalova = "$" + twoDecimal(amount/ (ptax * 10));
+        var altalovaCost = "R$" + toBRL(altalovaTotal);
     } else if (recipient == "Brazil" && transaction == "receive") {
-        var bank = "Total Cost= $" + twoDecimal((amount/ bankRate) + bankFee);
-        var mg = "Total Cost= $" + twoDecimal((amount/ mgRate) + mgFee);
-        var online = "Service not offered";
-        var altalova = "Total Cost= $" + twoDecimal((amount/ ptax) * ourSpread);
+        var bank = "$" + twoDecimal((amount/ bankRate) + bankFee);
+        var mg = "$" + twoDecimal((amount/ mgRate) + mgFee);
+        var online = "<div style='font-size: 25px'>Service not offered</div>";
+        var altalova = "$" + twoDecimal((amount/ ptax) * ourSpread);
     } else {
-        var bank = "Total Cost= R$" + toBRL(twoDecimal((amount * (bankRate * 10) + (bankFee * ptax))));
-        var mg = "Total Cost= R$" + toBRL(twoDecimal((amount * (mgRate * 10) + (mgFee * ptax))));
-        var online = "Total Cost= R$" + toBRL(twoDecimal(((amount * (onlineRate * 10)) + 62.10)));
-        if (amount >= 3000) {
-            online = "Transfer limit reached"
+        var bank = "R$" + toBRL(twoDecimal((amount * (bankRate * 10) + (bankFee * ptax))));
+        var mg = "R$" + toBRL(twoDecimal((amount * (mgRate * 10) + (mgFee * ptax))));
+        var online = "<div style='font-size: 23px'>Transfer limit reached</div>";
+        if (amount < 3000) {
+            var online = "R$" + toBRL(twoDecimal(((amount * (onlineRate * 10)) + 62.10)));
         }    
-        var altalova = "Total Cost= R$" + toBRL(twoDecimal((amount * (ptax * 10) * ourSpread)));
+        var altalova = "R$" + toBRL(twoDecimal((amount * (ptax * 10) * ourSpread)));
     }
 
-    document.getElementById("tbody").classList.remove("invisible");
-    document.getElementById("banksHead").innerHTML = bankRate;
-    document.getElementById("banks").innerHTML = bank;
-    document.getElementById("mgHead").innerHTML = mgRate;
-    document.getElementById("mg").innerHTML = mg;
-    if (recipient == "USA"){
-        document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate offered: " + onlineRate + "</i>";
+    if (transaction == "send") {
+        document.getElementById("banksHead").innerHTML = bankRate + "<br>Total Cost: " + bankCost;
+        document.getElementById("mgHead").innerHTML = mgRate + "<br>Total Cost: " + mgCost;
+        if (recipient == "USA"){
+            document.getElementById("onlineHead").innerHTML = "<i>*Exchange Rate: " + onlineRate + "<br>Total Cost: " + onlineCost + "</i>";
+        } else {
+            document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate not available</i>";
+        }
+        document.getElementById("altalovaHead").innerHTML = ptax + "<br>Lowest Cost: " + altalovaCost;
     } else {
-        document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate not available</i>";
+        document.getElementById("banksHead").innerHTML = bankRate
+        document.getElementById("mgHead").innerHTML = mgRate;
+        if (recipient == "USA"){
+            document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate: " + onlineRate + "</i>";
+        } else {
+            document.getElementById("onlineHead").innerHTML = "<i>*Exchange rate not available</i>";
+        }
+        document.getElementById("altalovaHead").innerHTML = ptax;
     }
+    document.getElementById("tbody").classList.remove("invisible");
+    document.getElementById("banks").innerHTML = bank;
+    document.getElementById("mg").innerHTML = mg;
     document.getElementById("online").innerHTML = online;
-    document.getElementById("altalovaHead").innerHTML = ptax;
     document.getElementById("altalova").innerHTML = altalova;
 }
 
@@ -224,39 +249,48 @@ function altalovaSpread(amount, ptax){
 }
 
 // funtion calculates the amount saved by using altalova
-function getDifference(recipient) {
-    var split = ".";
-    if (recipient == "USA") {
-        split = ","
-    }
+function getDifference(recipient, transaction) {
     document.getElementById("difference").classList.add("difference");
     document.getElementById("bred").classList.remove("red");
     document.getElementById("tred").classList.remove("red");
-    var low = document.getElementById("altalova").innerHTML;
-    low = low.substring(low.indexOf("$") + 1, low.indexOf(split) + 3);
-    low = parseFloat(low);
-    var high = document.getElementById("mg").innerHTML;
-    high = high.substring(high.indexOf("$") + 1, high.indexOf(split) + 3);
-    high = parseFloat(high);
-    var bank = document.getElementById("banks").innerHTML;
-    bank = bank.substring(bank.indexOf("$") + 1, bank.indexOf(split) + 3);
-    bank = parseFloat(bank);
-    if (bank > high) {
-        high = bank;
-        document.getElementById("bred").classList.add("red");
-    } else {
-        document.getElementById("tred").classList.add("red");
-    }
+    var altalova = document.getElementById("altalova").innerHTML.replace(",", ".");
+    var bank = document.getElementById("banks").innerHTML.replace(",", ".");
+    var mg = document.getElementById("mg").innerHTML.replace(",", ".");
+    var best = parseFloat(altalova.substring(altalova.indexOf("$") + 1));
+    var bank = parseFloat(bank.substring(bank.indexOf("$") + 1));
+    mg = parseFloat(mg.substring(mg.indexOf("$") + 1));
+    var currency = altalova.substring(0, altalova.indexOf("$") + 1);
 
-    var currency = document.getElementById("altalova").innerHTML;
-    currency = currency.substring(currency.indexOf("=") + 2, currency.indexOf("$") + 1);
-    var saved = twoDecimal(high - low);
-    if (saved > 0) {
-        if (currency == "R$") {
-            saved = toBRL(saved); 
+    if (transaction == "send"){
+        var low = mg;
+        if (bank < low) {
+            low = bank;
+            document.getElementById("bred").classList.add("red");
+        } else {
+            document.getElementById("tred").classList.add("red");
         }
-        document.getElementById("difference").innerHTML = "*Total Amount Saved= <b>" + currency + saved + "</b>";
+        var extra = twoDecimal(best - low);
+        if (currency == "R$") {
+            extra = toBRL(extra); 
+        }
+        document.getElementById("difference").innerHTML = "*Extra Amount Received= <b style='font-size: larger;'>" + currency + extra + "</b>";                
         document.getElementById("difference").classList.remove("invisible");
+    } else {
+        var high = bank;
+        if (mg > high) {
+            high = mg;
+            document.getElementById("tred").classList.add("red");
+        } else {
+            document.getElementById("bred").classList.add("red");
+        }
+        var saved = twoDecimal(high - best);
+        if (saved > 0) {
+            if (currency == "R$") {
+                saved = toBRL(saved); 
+            }
+            document.getElementById("difference").innerHTML = "*Total Amount Saved= <b style='font-size: larger;'>" + currency + saved + "</b>";                
+            document.getElementById("difference").classList.remove("invisible");
+        }
     }
 }
 
@@ -266,8 +300,8 @@ function twoDecimal(number) {
 }
 
 // helper function for two decimal limit
-function fiveDecimal(number) {
-    return number.toFixed(5);
+function fourDecimal(number) {
+    return number.toFixed(4);
 }
 
 function toBRL(number) {

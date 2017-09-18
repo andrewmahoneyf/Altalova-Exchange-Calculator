@@ -54,14 +54,18 @@ label{
     font-size: 20px;
 }
 
-table {
-    font-size: 18px;
-}
 #tbody td, #tbody th {
     border: 1px solid black;
 }
+
+ #thead {
+     font-size: 18px;
+ }
+
 #tbody {
     white-space:pre-wrap;
+    font-size: 22px;
+    line-height: 1;
 }
 .table td, .table th {
     vertical-align: middle;
@@ -76,7 +80,6 @@ table {
 th {
     max-width: 72px;
     text-align: center;
-    font-weight: bold;
 }
 td{
     max-width: 70px;
@@ -88,7 +91,9 @@ td{
     display: none;
 }
 i {
-    font-size: 11px;
+    font-size: 15px;
+    font-weight: normal;
+    color: #e9ecef;
 }
 #altalova{
     font-weight: bold;
@@ -97,7 +102,7 @@ i {
 
 .difference {
     color: red;
-    font-size: 30px;
+    font-size: 28px;
 }
 
 #origin, #recipient {
@@ -140,6 +145,17 @@ input[type="number"] {
     100% {transform: rotateZ(95deg);}
 }
 
+#mg, #banks, #online, #altalova {
+    text-align: center;
+    font-size: 38px;
+}
+
+#flag {
+    width: 30px;
+    height: 24px;
+    vertical-align: text-top;
+}
+
 @media (max-width: 992px) {
     #swap {
         margin-top: 0px;
@@ -148,19 +164,29 @@ input[type="number"] {
         animation: wiggle2 2s ease-in-out infinite;
     }
     .fixrow {
-        padding-left: 0;
+        padding-left: 7%;
     }
     .h2, h2 {
         font-size: 2rem;
     }
-    table, #root {
+    #tbody, #thead, #root {
         font-size: 16px;
+    }
+    i {
+        font-size: 12px;
     }
     .difference {
         font-size: 25px;
     }
     #altalova{
         white-space:pre-wrap;
+    }
+    #flag {
+        width: 25px;
+        height: 20px;
+    }
+    #mg, #banks, #online, #altalova {
+        font-size: 30px;
     }
 }
 
@@ -172,10 +198,24 @@ input[type="number"] {
     .h2, h2 {
         font-size: 1.5rem;
     }
-    table, #root, .difference {
+    #tbody, #thead, #root, .difference {
         font-size: 14px;
+    }
+    i {
+        font-size: 10px;
     }
     #fraction, #currency {
         display: none;
+    }
+    #mg, #banks, #online, #altalova {
+        font-size: 20px;
+    }
+    #flag {
+        width: 23px;
+        height: 17px;
+        vertical-align: text-top;
+    }
+    .fixrow {
+        padding-left: 0;
     }
 }
