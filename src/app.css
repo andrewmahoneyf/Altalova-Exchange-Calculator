@@ -192,14 +192,14 @@ input[type="number"] {
         font-size: 30px;
     }
     .float-left, .float-right {
-        max-width: 180px;
+        max-width: 165px;
     }
     .float-right{
         padding-left: 0;
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 450px) {
     #swap {
         margin-left: 15px;
     }
