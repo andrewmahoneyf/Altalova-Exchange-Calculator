@@ -173,10 +173,10 @@ input[type="number"] {
         font-size: 2rem;
     }
     #tbody, #thead, #root {
-        font-size: 16px;
+        font-size: 18px;
     }
     i {
-        font-size: 12px;
+        font-size: 13px;
     }
     .difference {
         font-size: 25px;
