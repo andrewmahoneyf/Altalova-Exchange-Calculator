@@ -3,6 +3,14 @@ body{
     background-color: transparent;
 }
 
+.float-left, .float-right {
+    max-width: 200px;
+}
+
+.countries{
+    display: unset;
+}
+
 .form-box {
     max-width: 550px; 
     background-color: rgba(0,0,0,0.7); 
@@ -31,7 +39,7 @@ form {
     width: 45px;
     height: 45px;
     margin-top: 25px;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 #logo {
@@ -42,6 +50,7 @@ form {
 .fixrow {
     padding-left: 10%;
     margin-bottom: 5px;
+    display: unset; 
 }
 
 label{
@@ -140,11 +149,6 @@ input[type="number"] {
     50%  {transform: rotateZ(-10deg);}
     100% {transform: rotateZ(10deg);}
 }
-@keyframes wiggle2 {
-    0%   {transform: rotate(95deg);}
-    50%  {transform: rotateZ(-95deg);}
-    100% {transform: rotateZ(95deg);}
-}
 
 #mg, #banks, #online, #altalova {
     text-align: center;
@@ -157,12 +161,10 @@ input[type="number"] {
     vertical-align: text-top;
 }
 
-/*@media (max-width: 992px) {
+@media (max-width: 992px) {
     #swap {
-        margin-top: 0px;
-        margin-left: 220px;
+        margin-left: 10%;
         align-self: center;
-        animation: wiggle2 2s ease-in-out infinite;
     }
     .fixrow {
         padding-left: 7%;
@@ -189,12 +191,17 @@ input[type="number"] {
     #mg, #banks, #online, #altalova {
         font-size: 30px;
     }
+    .float-left, .float-right {
+        max-width: 180px;
+    }
+    .float-right{
+        padding-left: 0;
+    }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
     #swap {
-        margin-top: 0px;
-        margin-left: 130px;
+        margin-left: 15px;
     }
     .h2, h2 {
         font-size: 1.5rem;
@@ -219,4 +226,7 @@ input[type="number"] {
     .fixrow {
         padding-left: 0;
     }
-}*/
+    .float-left, .float-right {
+        max-width: 145px;
+    }
+}

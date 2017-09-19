@@ -21,23 +21,25 @@
         </div>
 
         <form>
-            <div class="form-group float-left col-lg-5">
-                <label for="origin">Sending from:</label>
-                <select class="form-control" id="origin" disabled>
+            <div class="row countries">
+                <div class="form-group float-left col-lg-5">
+                    <label for="origin">Sending from:</label>
+                    <select class="form-control" id="origin" disabled>
                         <option>Brazil (BRL)</option>
                         <option>USA (USD)</option>
                     </select>
-            </div>
-            <img src="images/swap.png" alt="Swap" id="swap" class="wiggle">
-
-            <div class="form-group float-right col-lg-5">
-                <label for="recipient">Sending to:</label>
-                <select class="form-control" id="recipient" disabled>
+                </div>
+                <img src="images/swap.png" alt="Swap" id="swap" class="wiggle">
+                <div class="form-group float-right col-lg-5">
+                    <label for="recipient">Sending to:</label>
+                    <select class="form-control" id="recipient" disabled>
                         <option>USA (USD)</option>
                         <option>Brazil (BRL)</option>
                     </select>
+                </div>
+                <br style="clear:both" />
             </div>
-            <br style="clear:both" />
+            
 
             <div class="form-group form-inline fixrow">
                 <label class="sr-only" for="amount">Amount (in dollars)</label>
@@ -72,7 +74,9 @@
                         <td id="mg"></td>
                     </tr>
                     <tr>
-                        <th>Online Services<div id="onlineHead"></div></th>
+                        <th>Online Services
+                            <div id="onlineHead"></div>
+                        </th>
                         <td id="online"></td>
                     </tr>
                     <tr style="background-color: rgba(0, 255, 0, 0.1);">
