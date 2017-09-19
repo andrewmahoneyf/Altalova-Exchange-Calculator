@@ -1,5 +1,6 @@
 body{
     color: white;
+    background-color: transparent;
 }
 
 .form-box {
@@ -156,7 +157,7 @@ input[type="number"] {
     vertical-align: text-top;
 }
 
-@media (max-width: 992px) {
+/*@media (max-width: 992px) {
     #swap {
         margin-top: 0px;
         margin-left: 220px;
@@ -218,4 +219,4 @@ input[type="number"] {
     .fixrow {
         padding-left: 0;
     }
-}
+}*/
