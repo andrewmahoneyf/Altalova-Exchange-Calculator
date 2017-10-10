@@ -31,6 +31,9 @@ fetch(url)
         })
     })
     .catch(function (error) {
+        document.getElementById('buy').innerHTML = 3.1682;
+        document.getElementById('sell').innerHTML = 3.1723;
+        document.getElementById('td').innerHTML = "BID: " + 3.1682 + "ASK: " + 3.1723;
         console.log(JSON.stringify(error));
 
     });
